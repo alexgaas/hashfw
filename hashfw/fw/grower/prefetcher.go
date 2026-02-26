@@ -49,7 +49,7 @@ func clamp(d float64, min float64, max float64) float64 {
 
 	if t > max {
 		return max
-	} else {
-		return t
 	}
+
+	return t
 }
