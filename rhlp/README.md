@@ -125,6 +125,15 @@ Run benchmarks with:
 go test ./rhlp -bench=. -benchmem
 ```
 
+Generate benchmark plots:
+```bash
+go run ./rhlp/cmd/plotbench ./rhlp/plots
+```
+
+This generates the following charts in the `plots/` directory:
+- `benchmark_grid.png` - Combined grid (2 rows x 3 columns) with all performance charts
+- `summary_comparison.png` - Overall performance comparison
+
 ### Results
 
 Benchmark results on Apple M4 (arm64):
@@ -136,6 +145,18 @@ Benchmark results on Apple M4 (arm64):
 | Lookup (0% hit - miss) | 19.5 ns/op | 198 ns/op | RH early termination helps at high load |
 | High Load Factor | 1089 ns/op | 1253 ns/op | At ~45% load, LP ~13% faster |
 
+#### Performance Summary
+
+![Summary Comparison](plots/summary_comparison.png)
+
+#### Detailed Benchmark Results
+
+The following combined grid shows all benchmark results in two rows:
+- **Row 1**: Insert Performance, Lookup Hit (100%), Lookup Miss (0%)
+- **Row 2**: Load Factor Impact, PSL Statistics, PSL Growth
+
+![Benchmark Grid](plots/benchmark_grid.png)
+
 **Key Observations:**
 
 1. **Insert Performance**: Linear Probing is ~25% faster on inserts because Robin Hood requires additional swapping operations when "stealing" from rich entries.
@@ -144,11 +165,11 @@ Benchmark results on Apple M4 (arm64):
 
 3. **Lookup Misses**: The Robin Hood early termination based on PSL can provide significant benefits at high load factors by avoiding full table scans.
 
-4. **PSL Statistics** (at 24% load factor with 1000 elements):
-   - Max PSL: 2
-   - Avg PSL: 0.15
+4. **PSL Statistics** (at 45% load factor):
+   - Max PSL: 36
+   - Avg PSL: 5.27
 
-   This shows Robin Hood maintains very low variance in probe lengths.
+   Robin Hood maintains low average PSL even as maximum PSL grows, demonstrating its "fairness" property.
 
 **When to use each:**
 
