@@ -2,31 +2,6 @@
 
 A Go framework for building and comparing Open Addressing hash table implementations.
 
-### Project Structure
-
-```
-hashfw/
-├── hashfw/
-│   ├── fw/                     # Framework core components
-│   │   ├── hashtable.go        # Base interfaces and cell structure
-│   │   ├── alloc/              # Memory allocation
-│   │   │   ├── allocator.go    # Allocator interface
-│   │   │   └── alloc.go        # Simple and pooled allocator implementations
-│   │   ├── grower/             # Buffer sizing and growth
-│   │   │   ├── grower.go       # Power-of-2 sizing with efficient masking
-│   │   │   └── prefetcher.go   # CPU cache prefetch optimization
-│   │   └── hash/               # Hash functions
-│   │       ├── finalizer.go    # Finalizer interfaces
-│   │       └── hash.go         # MurmurHash64 and IntHash32 implementations
-│   ├── lp/                     # Linear Probing implementation
-│   │   └── LinearProbingHashtable.go
-│   └── rh/                     # Robin Hood implementation
-│       └── RobinhoodHashtable.go
-└── rhlp/                       # Benchmark and comparison
-    ├── README.md               # Theory and results
-    └── benchmark_test.go       # Performance comparison tests
-```
-
 ### Features
 
 **Framework (`fw/`):**
